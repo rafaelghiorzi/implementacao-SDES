@@ -94,13 +94,43 @@ def sdes(bits: list, key: list) -> str:
     # final result
     return bits
 
+def decode_sdes(bits: list, key: list) -> str:
+    IP = [2, 6, 3, 1, 4, 8, 5, 7] # initial permutation
+    IP_1 = [4, 1, 3, 5, 7, 2, 8, 6] # inverse initial permutation
+    
+    k1, k2 = key_gen(key)
+
+    # initial permutation
+    bits = permutation(bits, IP)
+    # feistel round with k2
+    bits = Fk(bits, k2)
+    # Swap left and right halves
+    bits = bits[4:] + bits[:4]
+    # feistel round with k1
+    bits = Fk(bits, k1)
+    # final permutation
+    bits = permutation(bits, IP_1)
+
+    # final result
+    return bits
+
 key = [1, 0, 1, 0, 0, 0, 0, 0, 1, 0] # 10 bits key
 bits = [1, 1, 0, 1, 0, 1, 1, 1] # 8 bits 'plaintext' block
 bits_message = [1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0] # 32 bits 'plaintext' message
 vector = [0, 1, 0, 1, 0, 1, 0, 1] # 8 bits initialization vector
 
+print(f"Chave\n{''.join(str(b) for b in key)}")
+print("=="*20)
+print(f"Mensagem pequena\n{''.join(str(b) for b in bits)}")
+print("=="*20)
+
 cipher = sdes(bits, key)
 print(f"SDES com implementação básica\n{''.join(str(b) for b in cipher)}")
+print("=="*20)
+
+decipher = decode_sdes(cipher, key)
+print(f"Decifrado\n{''.join(str(b) for b in decipher)}")
+print("=="*20)
 
 # divide the bits in blocks of eight bits
 blocks = [bits_message[i:i+8] for i in range(0, len(bits_message), 8)]
@@ -113,6 +143,7 @@ for block in blocks:
 # flatten the list of cipher blocks to display
 flat = [bit for block in cipher for bit in block]
 print(f"SDES com ECB\n{''.join(str(b) for b in flat)}")
+print("=="*20)
 
 # divide the bits in blocks of eight bits
 blocks = [bits_message[i:i+8] for i in range(0, len(bits_message), 8)]
@@ -128,3 +159,4 @@ for i in range(len(blocks)):
 # flatten the list of cipher blocks to display
 flat = [bit for block in cipher for bit in block]
 print(f"SDES com CBC\n{''.join(str(b) for b in flat)}")
+print("=="*20)
