@@ -273,18 +273,18 @@ flat = [bit for block in cipher for bit in block]
 A implementação do algoritmo SDES foi testada com diferentes entradas, demonstrando o funcionamento correto do processo de cifragem. Os resultados obtidos mostram o comportamento esperado de um algoritmo de criptografia simétrica:
 
 1. **Cifragem simples de um bloco**:
-   - Texto claro: `[1, 1, 0, 1, 0, 1, 1, 1]`
-   - Chave: `[1, 0, 1, 0, 0, 0, 0, 0, 1, 0]`
-   - Texto cifrado: `[1, 0, 1, 0, 1, 0, 0, 0]`
+   - Texto claro: `11010111`
+   - Chave: `1010000010`
+   - Texto cifrado: `10101000`
 
 2. **Cifragem no modo ECB** de uma mensagem de 32 bits:
-   - Texto claro: `[1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0]`
-   - Texto cifrado: `[1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1]`
+   - Texto claro: `11010111011011001011101011110000`
+   - Texto cifrado: `10101000000011010010111001101101`
 
 3. **Cifragem no modo CBC** da mesma mensagem:
-   - Texto claro: `[1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0]`
-   - Vetor de inicialização: `[0, 1, 0, 1, 0, 1, 0, 1]`
-   - Texto cifrado: `[0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0]`
+   - Texto claro: ` 11010111011011001011101011110000`
+   - Vetor de inicialização: `01010101`
+   - Texto cifrado: `00001011101010011001101101101010`
 
 ### Validação dos Resultados
 
